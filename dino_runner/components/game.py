@@ -1,7 +1,9 @@
 import pygame
+import random
 
 from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, CLOUD
 from dino_runner.components.dinosaur import Dinosaur
+from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 
 class Game:
     def __init__(self):
@@ -12,17 +14,16 @@ class Game:
         self.clock = pygame.time.Clock()
         
         self.player = Dinosaur()
+        self.obstacle_manager = ObstacleManager()
         
         self.playing = False
         self.game_speed = 10
         self.x_pos_bg = 0
         self.y_pos_bg = 380
-        self.x_pos_cloud1 = 1000
-        self.y_pos_cloud1 = 100
-        self.x_pos_cloud2 = 670
-        self.y_pos_cloud2 = 50
-        self.x_pos_cloud3 = 100
-        self.y_pos_cloud3 = 100
+        
+        self.cloud_y_pos = random.randint(100, 250)
+        self.cloud_x_pos = random.randint(SCREEN_WIDTH, SCREEN_WIDTH + 100)
+        
 
     def run(self):
         # Game loop: events - update - draw
@@ -42,13 +43,16 @@ class Game:
         
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
+        self.obstacle_manager.update(self)
         
 
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
         self.draw_background()
+        self.draw_simple_cloud()
         self.player.draw(self.screen)
+        self.obstacle_manager.draw(self.screen)
         
         pygame.display.flip()
 
@@ -60,17 +64,14 @@ class Game:
             self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
             self.x_pos_bg = 0
         self.x_pos_bg -= self.game_speed
-        self.screen.blit(CLOUD, (self.x_pos_cloud1,self.y_pos_cloud1))
-        self.screen.blit(CLOUD, (self.x_pos_cloud2,self.y_pos_cloud2))
-        self.screen.blit(CLOUD, (self.x_pos_cloud3,self.y_pos_cloud3))
-        self.x_pos_cloud1 -= self.game_speed
-        self.x_pos_cloud2 -= self.game_speed
-        self.x_pos_cloud3 -= self.game_speed
-        if self.x_pos_cloud1 <= -50:
-            self.x_pos_cloud1 = 1300
-        if self.x_pos_cloud2 <= -50:
-            self.x_pos_cloud2 = 1300
-        if self.x_pos_cloud3 <= -50:
-            self.x_pos_cloud3 = 1300
+
+    def draw_simple_cloud(self):
+        cloud_image_width = CLOUD.get_width()
+        self.screen.blit(CLOUD, (self.cloud_x_pos, self.cloud_y_pos))
         
-    
+        if self.cloud_x_pos <= -cloud_image_width:
+            self.cloud_x_pos = SCREEN_WIDTH + random.randint(0,50)
+            self.cloud_y_pos = random.randint(100, 250)
+            self.screen.blit(CLOUD, (self.cloud_x_pos, self.cloud_y_pos))
+        
+        self.cloud_x_pos -=self.game_speed
