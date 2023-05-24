@@ -9,9 +9,9 @@ from dino_runner.utils.constants import SMALL_CACTUS, LARGE_CACTUS, BIRD
 class ObstacleManager:
     def __init__(self):
         self.obstacles = []
-        self.obstacles_sky = []
+
     def update(self, game):
-        figure = 2
+        figure = random.randint(0,2)
         if len(self.obstacles) == 0:
             if figure == 0:
                 self.obstacles.append(Cactus(LARGE_CACTUS[random.randint(0, 2)]))
