@@ -14,6 +14,7 @@ class Game:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         
+
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
         
@@ -24,6 +25,7 @@ class Game:
         self.y_pos_bg = 380
         self.score = 0
         self.death_count = 0
+        self.speed = self.x_pos_bg
 
 
         self.cloud_y_pos = random.randint(100, 250)
@@ -77,6 +79,7 @@ class Game:
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
         self.draw_score()
+        self.draw_speed()
         
         pygame.display.flip()
 
@@ -141,3 +144,12 @@ class Game:
         self.player = Dinosaur()
         self.score = 0
         self.game_speed = 20
+
+    def draw_speed(self):
+        
+        font = pygame.font.Font(FONT_STYLE, 22)
+        text = font.render(f"Velocidade(m/s): {self.game_speed}", True, (0,0,0))
+        text_rect = text.get_rect()
+        text_rect.center = (900,100)
+        
+        self.screen.blit(text, text_rect)
