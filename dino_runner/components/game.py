@@ -1,9 +1,12 @@
 import pygame
 import random
 
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, CLOUD, FONT_STYLE, DINODEAD
+from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, CLOUD, FONT_STYLE, DINODEAD, DEFAULT_TYPE
+
 from dino_runner.components.dinosaur import Dinosaur
+
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
+from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 
 
 class Game:
@@ -17,6 +20,7 @@ class Game:
 
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
+        self.power_up_manager = PowerUpManager()
         
         self.executing = False
         self.playing = False
@@ -65,6 +69,7 @@ class Game:
         self.update_speed()
         self.update_time()
         self.obstacle_manager.update(self)
+        self.power_up_manager.update(self)
         
     def update_score(self):
         self.score+=1
@@ -89,6 +94,8 @@ class Game:
         self.draw_speed()
         self.draw_time()
         self.draw_deathscore()
+        self.power_up_manager.draw(self.screen)
+
 
         pygame.display.flip()
 
@@ -176,11 +183,28 @@ class Game:
             self.run()
 
         elif self.death_count <= 3 and user_input[pygame.K_c]:
+            self.score = self.score
             self.run()
             
 
             
-
+    def draw_power_up_time(self):
+        if self.player.has_power_up:
+            time_to_show = round((self.player.power_up_time_up - pygame.time.get_ticks())/1000,2)
+            
+            if time_to_show >= 0:
+                font = pygame.font.Font(FONT_STYLE, 22)
+                text = font.render(f"Power Up Time:{time_to_show}s", True, (255,0,0))
+                
+                text_rect = text.get_rect()
+                text_rect.x = 500
+                text_rect.y = 50
+                
+                self.screen.blit(text, text_rect)
+                
+            else:
+                self.player.has_power_up = False
+                self.player.type = DEFAULT_TYPE
     
     def draw_score(self):
         
@@ -210,13 +234,6 @@ class Game:
             self.screen.blit(CLOUD, (self.cloud_x_pos, self.cloud_y_pos))
         
         self.cloud_x_pos -=self.game_speed
-
-    def reset_game(self):
-        self.obstacle_manager.reset_obstacles()
-        self.player = Dinosaur()
-        self.score = 0
-        self.game_speed = 20
-
 
     def draw_speed(self):
         
@@ -254,4 +271,11 @@ class Game:
         
         self.screen.blit(text, text_rect)
 
-        
+#######################################################
+
+    def reset_game(self):
+        self.obstacle_manager.reset_obstacles()
+        self.power_up_manager.reset_power_ups()
+        self.player = Dinosaur()
+        self.score = 0
+        self.game_speed = 20    

@@ -25,9 +25,6 @@ class Dinosaur:
     
     def update(self, user_input):
         
-        if user_input[pygame.K_ESCAPE]:
-            self.dino_rect.x = self.dino_rect.x
-
         if user_input[pygame.K_RIGHT]:
             self.dino_rect.x = self.dino_rect.x >= SCREEN_WIDTH - self.dino_rect.width and self.dino_rect.x or self.dino_rect.x + WALK
         elif user_input[pygame.K_LEFT]:
