@@ -31,10 +31,10 @@ class PowerUpManager:
                 
                 self.power_ups.remove(power_up)
     
-    def generate_power_up(self, time_to_show):
+    def generate_power_up(self, score):
         poder = random.randint(0,1)
-#2(score % 100 == 0)
-        if len(self.power_ups) == 0 and time_to_show == 0:
+
+        if len(self.power_ups) == 0 and score % 200 == 0:
             if poder == 0:
                 self.power_ups.append(Shield())
             elif poder == 1:

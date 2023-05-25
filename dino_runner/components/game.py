@@ -24,7 +24,6 @@ class Game:
         
         self.executing = False
         self.playing = False
-        self.menu = False
         self.game_speed = 20
         self.x_pos_bg = 0
         self.y_pos_bg = 380
@@ -32,6 +31,8 @@ class Game:
         self.high_score = 0
         self.death_count = 0
         self.tempo_menu = 0
+        self.time = 0
+        
 
         self.cloud_y_pos = random.randint(100, 250)
         self.cloud_x_pos = random.randint(SCREEN_WIDTH, SCREEN_WIDTH + 100)
@@ -41,6 +42,7 @@ class Game:
         while self.executing:
             if self.playing == False:
                 self.display_menu()
+
             
         
         pygame.quit()    
@@ -48,12 +50,17 @@ class Game:
     def run(self):
         # Game loop: events - update - draw
         self.playing = True
-        self.reset_game()
+        if self.death_count == 0:
+            self.reset_game()
+        elif self.death_count > 0:
+            self.continue_game
+
         while self.playing:
             self.events()
             self.update()
             self.draw()
         self.display_menu()
+        
         
 
     def events(self):
@@ -68,12 +75,18 @@ class Game:
         self.player.update(user_input)
         self.update_score()
         self.update_speed()
+        self.update_time()
         self.obstacle_manager.update(self)
         self.power_up_manager.update(self)
         
     def update_score(self):
         self.score+=1
         
+    def update_time(self):
+        if self.playing == True:
+            self.time += 0.05
+        else:
+            self.time = 0
 
     def update_speed(self):
         if self.score % 100 == 0:
@@ -159,7 +172,7 @@ class Game:
             self.screen.blit(text2, text_rect2)
             self.screen.blit(text3, text_rect3)
 
-            self.menu = True
+
 
             self.menu_events_handler()
             pygame.display.flip()
@@ -178,22 +191,22 @@ class Game:
             elif self.death_count == 0 and event.type == pygame.KEYDOWN:
                 self.run()
         
-        if self.menu == True:
-            self.tempo_menu = (pygame.time.get_ticks()/1000)
-            print(self.tempo_menu)
 
-            if user_input[pygame.K_r]:
-                self.score = 0
-                self.death_count = 0
-                self.high_score = 0
-                self.run()
+        if user_input[pygame.K_r]:
+            self.score = 0
+            self.death_count = 0
+            self.high_score = 0
+            self.time = 0
+            self.run()
 
-            elif self.death_count <= 3 and user_input[pygame.K_c]:
-                self.score = self.score
-                self.run()
+        elif self.death_count <= 3 and user_input[pygame.K_c]:
+            self.continue_game()
+            self.run()
+            
 
-            elif user_input[pygame.K_ESCAPE] or self.tempo_menu > 10:
-                self.executing = False
+
+        elif user_input[pygame.K_ESCAPE]:
+            self.executing = False
             
     def draw_power_up_time(self):
         if self.player.has_power_up:
@@ -254,7 +267,7 @@ class Game:
     def draw_time(self):
         
         font = pygame.font.Font(FONT_STYLE, 18)
-        text = font.render(f"Tempo: {(round(pygame.time.get_ticks()/1000,1))}s", True, (0,0,0))
+        text = font.render(f"Tempo: {(round(self.time,0))}s", True, (0,0,0))
         text_rect = text.get_rect()
         text_rect.center = (80,30)
         
@@ -286,3 +299,10 @@ class Game:
         self.player = Dinosaur()
         self.score = 0
         self.game_speed = 20    
+
+    def continue_game(self):
+        self.obstacle_manager.reset_obstacles()
+        self.power_up_manager.reset_power_ups()
+        self.player = Dinosaur()
+        self.score = self.score
+        self.game_speed = 20   

@@ -26,10 +26,20 @@ class ObstacleManager:
             obstacle.update(game.game_speed, self.obstacles)
             
             if game.player.dino_rect.colliderect(obstacle.rect):
-                if not game.player.has_power_up:
+                if not game.player.has_power_up and game.death_count <=3:
+                    pygame.time.delay(500)
+                    self.continue_game = True
+                    game.death_count += 1
+                    game.playing = False
+                    
+                    
+                
+                elif not game.player.has_power_up and game.death_count > 3:
                     pygame.time.delay(500)
                     game.playing = False
-                    game.death_count += 1
+                    self.continue_game = False
+                    
+                
                 else:
                     self.obstacles.remove(obstacle)
                 
