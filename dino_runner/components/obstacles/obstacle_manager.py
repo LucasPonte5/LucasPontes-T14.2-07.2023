@@ -17,7 +17,7 @@ class ObstacleManager:
                 self.obstacles.append(Cactus(SMALL_CACTUS[random.randint(0,2)]))
             elif figura == 2:
                 cactus = Cactus(LARGE_CACTUS[random.randint(0,2)])
-                cactus.rect.y = 300# mudando a posição do cactus Largo
+                cactus.rect.y = 300
                 self.obstacles.append(cactus)
             elif figura == 3:
                 self.obstacles.append(Bird(BIRD))
@@ -26,10 +26,12 @@ class ObstacleManager:
             obstacle.update(game.game_speed, self.obstacles)
             
             if game.player.dino_rect.colliderect(obstacle.rect):
-                pygame.time.delay(500)
-                game.death_count += 1
-                
-                game.playing = False
+                if not game.player.has_power_up:
+                    pygame.time.delay(500)
+                    game.playing = False
+                    game.death_count += 1
+                else:
+                    self.obstacles.remove(obstacle)
                 
             
         
