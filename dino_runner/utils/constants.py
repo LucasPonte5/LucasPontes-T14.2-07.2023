@@ -7,6 +7,7 @@ SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 1100
 FPS = 30
 IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
+
 FONT_STYLE = "freesansbold.ttf"
 
 #Constante obstaculos
@@ -14,6 +15,8 @@ OBSTACLE_Y_POS = 325
 
 # Assets Constants
 ICON = pygame.image.load(os.path.join(IMG_DIR, "DinoWallpaper.png"))
+
+DINODEAD = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDead.png"))
 
 RUNNING = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun1.png")),
@@ -65,6 +68,7 @@ BIRD = [
     pygame.image.load(os.path.join(IMG_DIR, "Bird/Bird2.png")),
 ]
 
+RESET = pygame.image.load(os.path.join(IMG_DIR, 'Other/Reset.png'))
 CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Other/Cloud.png'))
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 HAMMER = pygame.image.load(os.path.join(IMG_DIR, 'Other/hammer.png'))
