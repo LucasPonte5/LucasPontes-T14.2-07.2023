@@ -14,6 +14,9 @@ FONT_STYLE = "freesansbold.ttf"
 OBSTACLE_Y_POS = 325
 
 # Assets Constants
+
+DESENHO = pygame.image.load(os.path.join(IMG_DIR, "Desenhos/Jogo.png"))
+
 ICON = pygame.image.load(os.path.join(IMG_DIR, "DinoWallpaper.png"))
 
 DINODEAD = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDead.png"))
@@ -68,6 +71,7 @@ BIRD = [
     pygame.image.load(os.path.join(IMG_DIR, "Bird/Bird2.png")),
 ]
 
+METEORO = pygame.image.load(os.path.join(IMG_DIR, 'Desenhos/Meteoro.png'))
 RESET = pygame.image.load(os.path.join(IMG_DIR, 'Other/Reset.png'))
 CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Other/Cloud.png'))
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
