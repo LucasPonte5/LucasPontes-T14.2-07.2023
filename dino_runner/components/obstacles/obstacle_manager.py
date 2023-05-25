@@ -4,6 +4,7 @@ import pygame
 from dino_runner.components.obstacles.meteoro import Meteoro
 from dino_runner.components.obstacles.cactus import Cactus
 from dino_runner.components.obstacles.bird import Bird
+
 from dino_runner.utils.constants import SMALL_CACTUS, LARGE_CACTUS, BIRD, METEORO
 
 
@@ -13,7 +14,7 @@ class ObstacleManager:
     
     def update(self, game):
         if len(self.obstacles) == 0:
-            figura = random.randint(1,3)
+            figura = random.randint(1,4)
             if figura == 1:
                 self.obstacles.append(Cactus(SMALL_CACTUS[random.randint(0,2)]))
             elif figura == 2:
@@ -24,6 +25,9 @@ class ObstacleManager:
                 self.obstacles.append(Bird(BIRD))
             elif figura == 4:
                 self.obstacles.append(Meteoro(METEORO))
+                
+
+                
                 
         for obstacle in self.obstacles:
             obstacle.update(game.game_speed, self.obstacles)

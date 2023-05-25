@@ -1,7 +1,7 @@
 import pygame
 import random
 
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, CLOUD, FONT_STYLE, DESENHO, DEFAULT_TYPE, METEORO
+from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, CLOUD, FONT_STYLE, DESENHO, DEFAULT_TYPE
 
 from dino_runner.components.dinosaur import Dinosaur
 
@@ -37,8 +37,7 @@ class Game:
         self.cloud_y_pos = random.randint(100, 250)
         self.cloud_x_pos = random.randint(SCREEN_WIDTH, SCREEN_WIDTH + 100)
         
-        self.meteoro_y_pos = 0
-        self.meteoro_x_pos = 1000
+        
         
     def execute(self):
         self.executing = True
@@ -100,7 +99,6 @@ class Game:
         self.screen.fill((255, 255, 255))
         self.draw_background()
         self.draw_simple_cloud()
-        self.draw_meteoro()
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
         self.draw_score()
@@ -248,17 +246,7 @@ class Game:
             self.x_pos_bg = 0
         self.x_pos_bg -= self.game_speed
 
-    def draw_meteoro(self):
-        meteoro_image_width = METEORO.get_width()
-        self.screen.blit(METEORO, (self.meteoro_x_pos, self.meteoro_y_pos))
-        
-        if self.meteoro_x_pos <= -meteoro_image_width - 150:
-            self.meteoro_x_pos = 900
-            self.meteoro_y_pos = -50
-            self.screen.blit(METEORO, (self.meteoro_x_pos, self.meteoro_y_pos))
-        
-        self.meteoro_x_pos -=self.game_speed
-        self.meteoro_y_pos += 2
+
 
     def draw_simple_cloud(self):
         cloud_image_width = CLOUD.get_width()
