@@ -8,6 +8,7 @@ from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 
+musica = pygame.mixer.Sound("dino_runner/assets/Music/Sound.mp3")
 
 class Game:
     def __init__(self):
@@ -30,7 +31,6 @@ class Game:
         self.score = 0
         self.high_score = 0
         self.death_count = 0
-        self.tempo_menu = 0
         self.time = 0
         
 
@@ -44,6 +44,7 @@ class Game:
         while self.executing:
             if self.playing == False:
                 self.display_menu()
+            
 
             
         
@@ -61,6 +62,7 @@ class Game:
             self.events()
             self.update()
             self.draw()
+            
         self.display_menu()
         
         
@@ -174,8 +176,8 @@ class Game:
             self.screen.blit(text2, text_rect2)
             self.screen.blit(text3, text_rect3)
 
-
-
+            
+            musica.stop()
             self.menu_events_handler()
             pygame.display.flip()
 
@@ -295,12 +297,12 @@ class Game:
         
         self.screen.blit(text, text_rect)
 
-#######################################################
 
     def reset_game(self):
         self.obstacle_manager.reset_obstacles()
         self.power_up_manager.reset_power_ups()
         self.player = Dinosaur()
+        musica.play()
         self.score = 0
         self.game_speed = 20    
 
@@ -308,5 +310,6 @@ class Game:
         self.obstacle_manager.reset_obstacles()
         self.power_up_manager.reset_power_ups()
         self.player = Dinosaur()
+        musica.play()
         self.score = self.score
         self.game_speed = 20   

@@ -4,6 +4,8 @@ from dino_runner.utils.constants import RUNNING, JUMPING, DUCKING, SCREEN_WIDTH,
 RUN_IMG = {DEFAULT_TYPE: RUNNING, SHIELD_TYPE: RUNNING_SHIELD, HAMMER_TYPE: RUNNING_HAMMER}
 DUCK_IMG = {DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD, HAMMER_TYPE: DUCKING_HAMMER}
 JUMP_IMG = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE: JUMPING_SHIELD, HAMMER_TYPE: JUMPING_HAMMER}
+pygame.init()
+pulando = pygame.mixer.Sound("dino_runner/assets/Music/Jump.wav")
 
 Y_POS = 310
 Y_POS_DUCK = 340
@@ -41,6 +43,7 @@ class Dinosaur:
         if user_input[pygame.K_UP] and self.dino_rect.y == Y_POS:
             self.dino_run = False
             self.dino_jump = True
+            pulando.play()
         elif user_input[pygame.K_DOWN]:
             self.dino_duck = True
             self.dino_run = False

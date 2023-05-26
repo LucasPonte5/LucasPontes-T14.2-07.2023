@@ -1,19 +1,17 @@
 import pygame
 import os
 
-# Global Constants
 TITLE = "Chrome Dino Runner"
 SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 1100
 FPS = 30
 IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
+SND_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 
 FONT_STYLE = "freesansbold.ttf"
 
-#Constante obstaculos
 OBSTACLE_Y_POS = 325
 
-# Assets Constants
 
 DESENHO = pygame.image.load(os.path.join(IMG_DIR, "Desenhos/Jogo.png"))
 
@@ -84,3 +82,5 @@ HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 DEFAULT_TYPE = "default"
 SHIELD_TYPE = "shield"
 HAMMER_TYPE = "hammer"
+
+

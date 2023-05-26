@@ -6,6 +6,13 @@ from dino_runner.components.obstacles.cactus import Cactus
 from dino_runner.components.obstacles.bird import Bird
 
 from dino_runner.utils.constants import SMALL_CACTUS, LARGE_CACTUS, BIRD, METEORO
+pygame.init()
+
+meteoro_sound = pygame.mixer.Sound("dino_runner/assets/Music/Meteoro.wav")
+passaro = pygame.mixer.Sound("dino_runner/assets/Music/Passaro.wav")
+gameover = pygame.mixer.Sound("dino_runner/assets/Music/Gameover.wav")
+quebrando = pygame.mixer.Sound("dino_runner/assets/Music/Quebrando.mp3")
+batida = pygame.mixer.Sound("dino_runner/assets/Music/Batida.wav")
 
 
 class ObstacleManager:
@@ -23,8 +30,10 @@ class ObstacleManager:
                 self.obstacles.append(cactus)
             elif figura == 3:
                 self.obstacles.append(Bird(BIRD))
+                passaro.play()
             elif figura == 4:
                 self.obstacles.append(Meteoro(METEORO))
+                meteoro_sound.play()
                 
 
                 
@@ -34,7 +43,9 @@ class ObstacleManager:
             
             if game.player.dino_rect.colliderect(obstacle.rect):
                 if not game.player.has_power_up and game.death_count <=3:
+                    batida.play()
                     pygame.time.delay(500)
+                    gameover.play()
                     self.continue_game = True
                     game.death_count += 1
                     game.playing = False
@@ -48,6 +59,7 @@ class ObstacleManager:
                     
                 
                 else:
+                    quebrando.play()
                     self.obstacles.remove(obstacle)
                 
             
